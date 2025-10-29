@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tes Face Detection</title>
+  <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+  <style>
+    body { display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; background:#f8f9fa; font-family:sans-serif;}
+    video { width:90%; max-width:400px; border-radius:10px; background:#000; }
+    canvas { position:absolute; top:0; left:0; }
+    #status { margin-top:15px; font-weight:bold; }
+  </style>
+</head>
+<body>
+  <h2>🎥 Tes Face Detection (face-api.js)</h2>
+  <div style="position: relative;">
+    <video id="video" autoplay playsinline webkit-playsinline muted></video>
+    <canvas id="overlay"></canvas>
+  </div>
+  <p id="status">Menyiapkan kamera...</p>
+
+  <script>
+    const video = document.getElementById("video");
+    const overlay = document.getElementById("overlay");
+    const ctx = overlay.getContext("2d");
+    const statusText = document.getElementById("status");
+
+    async function init() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
+        video.srcObject = stream;
+        await video.play();
+
+        statusText.textContent = "Kamera aktif ✅";
+
+        const MODEL_URL = "https://raw.githubusercontent.com/justadudewhohacks/face-api.js/master/weights/";
+        await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
+
+        statusText.textContent = "Model dimuat ✅, mulai deteksi wajah...";
+        detectLoop();
+      } catch (err) {
+        console.error("Error:", err);
+        statusText.innerHTML = "❌ Gagal membuka kamera: " + err.message;
+        statusText.style.color = "red";
+      }
+    }
+
+    async function detectLoop() {
+      const options = new faceapi.TinyFaceDetectorOptions({ inputSize: 160, scoreThreshold: 0.5 });
+
+      async function detect() {
+        overlay.width = video.offsetWidth;
+        overlay.height = video.offsetHeight;
+
+        const detections = await faceapi.detectAllFaces(video, options);
+        ctx.clearRect(0, 0, overlay.width, overlay.height);
+
+        if (detections.length > 0) {
+          const box = detections[0].box;
+          const scaleX = overlay.width / video.videoWidth;
+          const scaleY = overlay.height / video.videoHeight;
+          ctx.strokeStyle = "#00FF00";
+          ctx.lineWidth = 3; 
+          ctx.strokeRect(box.x * scaleX, box.y * scaleY, box.width * scaleX, box.height * scaleY);
+          statusText.textContent = "✅ Wajah terdeteksi!";
+          statusText.style.color = "#28a745";
+        } else {
+          statusText.textContent = "❌ Tidak ada wajah yang terdeteksi";
+          statusText.style.color = "#d9534f";
+        }
+
+        requestAnimationFrame(detect);
+      }
+
+      detect();
+    }
+
+    init();
+  </script>
+</body>
+</html>
