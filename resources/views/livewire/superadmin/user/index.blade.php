@@ -43,11 +43,11 @@
                 Cetak
               </button>
               <div class="dropdown-menu">
-                <a class="dropdown-item text-success" href="#">
+                <a class="dropdown-item text-success" href="{{ route('superadmin.user.printexcel') }}">
                   <i class="fas fa-file-excel"></i>
                   Excel
                 </a>
-                <a class="dropdown-item text-danger" href="#">
+                <a class="dropdown-item text-danger" href="{{ route('superadmin.user.printpdf') }}">
                   <i class="fas fa-file-pdf mr-1"></i>
                   PDF
                 </a>

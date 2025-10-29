@@ -2,10 +2,14 @@
 
 namespace App\Livewire\Superadmin\User;
 
+use App\Exports\UsersExport;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Index extends Component
 {
@@ -123,4 +127,18 @@ class Index extends Component
         $user   -> delete();
         $this   -> dispatch('closeDeleteModal');
     }
+    public function export() 
+    {
+        return Excel::download(new UsersExport, 'Data Users.xlsx');
+    }
+    // public function printpdf()
+    // {
+    //     $user = User::all();
+    //     $namaFile = 'Data User ' . Carbon::now()->translatedFormat('d F Y') . '.pdf';
+
+    //     $pdf = Pdf::loadView('superadmin.user.printpdf', ['user' => $user])
+    //         ->setPaper('a4', 'portrait');
+
+    //     return $pdf->download($namaFile);
+    // }
 }
