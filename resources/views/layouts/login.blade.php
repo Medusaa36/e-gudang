@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>E - Gudang | @yield ('title')</title>
-  
+  <title>E - Gudang | @yield('title')</title>
+
   @include('layouts.style')
   @livewireStyles
 </head>
 <body class="hold-transition login-page">
 
-    @yield ('content')
+  {{ $slot }}
     
   @include('layouts.script')
   @livewireScripts

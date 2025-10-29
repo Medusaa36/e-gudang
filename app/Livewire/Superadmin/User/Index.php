@@ -63,7 +63,7 @@ class Index extends Component
         $user -> nama       = $this->nama;
         $user -> email      = $this->email;
         $user -> role       = $this->role;
-        $user -> password   = Hash::make('$this->password');
+        $user -> password   = Hash::make($this->password);
         $user -> save();
         $this->dispatch('closeCreateModal'); 
 
@@ -104,7 +104,7 @@ class Index extends Component
             $user -> email      = $this->email;
             $user -> role       = $this->role;
             if(filled($this->password)){
-                $user -> password   = Hash::make('$this->password');
+                $user -> password   = Hash::make($this->password);
             }
             $user -> save();
             $this->dispatch('closeEditModal'); 
