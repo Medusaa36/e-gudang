@@ -28,9 +28,9 @@ class Login extends Component
 
         Auth::login($user);
 
-       if ($user->role === 'superadmin') {
+       if ($user->role === 'Super Admin') {
             return redirect()->route('superadmin.user.index');
-        } elseif ($user->role === 'admin') {
+        } elseif ($user->role === 'Admin') {
             return redirect()->route('admin.barang.index');
         } else {
             return redirect()->route('dashboard');

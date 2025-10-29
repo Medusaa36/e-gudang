@@ -1,5 +1,5 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <a href="#" class="brand-link">
+    <a href="{{ route ('dashboard') }}" class="brand-link">
       <img src="{{ asset ('adminlte3/dist/img/AdminLTELogo.png')}}" alt="E-Gudang Logo" class="brand-image img-circle">
       <span class="brand-text font-weight-light">E-Gudang</span>
     </a>
@@ -7,7 +7,7 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
-            <a href="{{ route ('dashboard') }}" class="nav-link">
+            <a href="{{ route ('dashboard') }}" class="nav-link  @yield ('menuDashboard')">
               <i class="nav-icon fas fa-home"></i>
               <p>
                 Dashboard

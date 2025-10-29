@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', Login::class)->name('login')->middleware('guest');
 
 
-// halaman setelah login
 Route::middleware(['auth'])->group(function () {
     Route::view('/dashboard', 'dashboard')->name('dashboard');
 
@@ -16,7 +15,6 @@ Route::middleware(['auth'])->group(function () {
     Route::view('admin/barang', 'admin.barang.index')->name('admin.barang.index');
 });
 
-// logout
 Route::post('/logout', function () {
     Auth::logout();
     request()->session()->invalidate();
